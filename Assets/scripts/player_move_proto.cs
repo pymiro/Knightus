@@ -1,30 +1,62 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class player_move_proto : MonoBehaviour {
 
-    public int playerSpeed = 10;
+	public Rigidbody2D rb;
+
+    public float playerSpeed = 1;
     private bool facingRight = true;
     public int playerJumpPower = 1250;
     private float moveX;
 
+	public Animator anim;
             
+	public bool walking;
 
-	
+
 	void Update () {
+
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
+		}
 
         playerMove ();
 
+	}
+
+	void FixedUpdate()
+	{
+		if (moveX != 0f) {
+			if (!walking) {
+				walking = true;
+
+				anim.SetTrigger ("Run");
+			}
+		} 
+		else {
+			if (walking) {
+				walking = false;
+
+				anim.SetTrigger ("Idle");
+			}
+		}
+
+
+		rb.velocity = new Vector2(moveX * playerSpeed, rb.velocity.y);
 	}
 
     void playerMove()
     {
         //Player Controls
 
-        moveX = Input.GetAxis("Horizontal");
+        moveX = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetButtonDown("Jump"))
+
+
+		if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             playerJump();
 
@@ -44,14 +76,15 @@ public class player_move_proto : MonoBehaviour {
         }
 
         //Player Physics
-        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(moveX * playerSpeed, gameObject.GetComponent<Rigidbody2D>().velocity.y);
 
     }
+
+
 
     void playerJump()
     {
         //Jumping Code
-        GetComponent<Rigidbody2D>().AddForce(Vector2.up * playerJumpPower);
+        rb.AddForce(Vector2.up * playerJumpPower);
     }
 
     void flipPlayer()

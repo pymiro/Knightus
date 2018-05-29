@@ -16,18 +16,65 @@ public class player_move_proto : MonoBehaviour {
             
 	public bool walking;
 
+	private int JumpCount = 0;
+	public bool grounded;
+
+	public CircleCollider2D collid;
+
 
 	void Update () {
 
-		if (Input.GetKeyDown (KeyCode.Escape)) {
-			SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
-		}
+		ResetScene ();
 
-        playerMove ();
+        PlayerControls ();
 
 	}
 
 	void FixedUpdate()
+	{
+		AnimPlayer ();
+
+		PlayerMove ();
+	}
+
+    void PlayerControls()
+    {
+        //Player Controls
+
+        moveX = Input.GetAxisRaw("Horizontal");
+
+
+
+		if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            PlayerJump();
+
+        }
+
+        //Player Animations
+        //Player Direction
+
+        if (moveX < 0.0f && facingRight == false)
+        {
+            FlipPlayer();
+        }
+
+        else if (moveX > 0.0f && facingRight == true)
+        {
+            FlipPlayer();
+        }
+
+        //Player Physics
+
+    }
+
+
+	void PlayerMove()
+	{
+		rb.velocity = new Vector2(moveX * playerSpeed, rb.velocity.y);
+	}
+
+	void AnimPlayer()
 	{
 		if (moveX != 0f) {
 			if (!walking) {
@@ -43,51 +90,22 @@ public class player_move_proto : MonoBehaviour {
 				anim.SetTrigger ("Idle");
 			}
 		}
-
-
-		rb.velocity = new Vector2(moveX * playerSpeed, rb.velocity.y);
 	}
 
-    void playerMove()
-    {
-        //Player Controls
-
-        moveX = Input.GetAxisRaw("Horizontal");
-
-
-
-		if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            playerJump();
-
-        }
-
-        //Player Animations
-        //Player Direction
-
-        if (moveX < 0.0f && facingRight == false)
-        {
-            flipPlayer();
-        }
-
-        else if (moveX > 0.0f && facingRight == true)
-        {
-            flipPlayer();
-        }
-
-        //Player Physics
-
-    }
-
-
-
-    void playerJump()
+    void PlayerJump()
     {
         //Jumping Code
-        rb.AddForce(Vector2.up * playerJumpPower);
+		if (JumpCount < 1)
+		{
+			rb.AddForce(Vector2.up * playerJumpPower);
+
+			JumpCount += 1;
+
+		}
+
     }
 
-    void flipPlayer()
+    void FlipPlayer()
     {
         facingRight = !facingRight;
 
@@ -96,4 +114,25 @@ public class player_move_proto : MonoBehaviour {
         transform.localScale = localScale;
 
     }
+
+	void ResetScene()
+	{
+
+		if (Input.GetKeyDown (KeyCode.Escape))
+		{
+			SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
+		}
+	}
+
+	 
+	void OnTriggerStay2D (Collider2D collider)
+	{
+		grounded = true;
+		JumpCount = 0;
+	}
+
+	void OnTriggerExit2D (Collider2D collider)
+	{
+		grounded = false;
+	}
 }

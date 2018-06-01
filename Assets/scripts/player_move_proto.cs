@@ -16,7 +16,7 @@ public class player_move_proto : MonoBehaviour {
             
 	public bool walking;
 
-	private int JumpCount = 0;
+	public int JumpCount = 0;
 	public bool grounded;
 
 	public CircleCollider2D collid;
@@ -95,7 +95,7 @@ public class player_move_proto : MonoBehaviour {
     void PlayerJump()
     {
         //Jumping Code
-		if (JumpCount < 1)
+		if (JumpCount < 2)
 		{
 			rb.AddForce(Vector2.up * playerJumpPower);
 

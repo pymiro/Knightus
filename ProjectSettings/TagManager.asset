@@ -15,7 +15,7 @@ TagManager:
   - 
   - Player
   - Platforms
-  - 
+  - bullets
   - 
   - 
   - 
@@ -46,4 +46,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3087683647
+    locked: 0
+  - name: bullets
+    uniqueID: 3948624357
     locked: 0

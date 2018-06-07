@@ -21,6 +21,11 @@ public class player_move_proto : MonoBehaviour {
 
 	public CircleCollider2D collid;
 
+	public Rigidbody2D weapon;
+	public int weaponSpeed = 1;
+
+
+	public Transform swordSpawnTransform;
 
 	void Update () {
 
@@ -64,7 +69,12 @@ public class player_move_proto : MonoBehaviour {
             FlipPlayer();
         }
 
-        //Player Physics
+
+		if (Input.GetKeyDown (KeyCode.X))
+		{
+			ThrowWeapon ();
+		}
+        
 
     }
 
@@ -182,5 +192,17 @@ public class player_move_proto : MonoBehaviour {
 			anim.SetTrigger ("Idle");
 
 		}
+	}
+
+	void ThrowWeapon()
+	{
+		Rigidbody2D weaponInstance = Instantiate (weapon, swordSpawnTransform.position, weapon.transform.rotation) as Rigidbody2D;
+
+		//weaponInstance.transform.localScale
+
+		weaponInstance.velocity = transform.right * weaponSpeed;
+
+		Physics2D.IgnoreCollision (weaponInstance.GetComponent<Collider2D>(), GetComponent <Collider2D>());
+
 	}
 }

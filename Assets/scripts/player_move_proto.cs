@@ -78,18 +78,27 @@ public class player_move_proto : MonoBehaviour {
 	{
 		if (moveX != 0f) {
 			if (!walking) {
-				walking = true;
+				if (grounded)
+				{
+					walking = true;
 
-				anim.SetTrigger ("Run");
+					anim.SetTrigger ("Run");
+				}
+
 			}
 		} 
 		else {
 			if (walking) {
-				walking = false;
+				if (grounded)
+				{
+					walking = false;
 
-				anim.SetTrigger ("Idle");
+					anim.SetTrigger ("Idle");
+				}
 			}
 		}
+
+
 	}
 
     void PlayerJump()
@@ -101,6 +110,17 @@ public class player_move_proto : MonoBehaviour {
 
 			JumpCount += 1;
 
+
+		}
+
+		if (JumpCount == 1) 
+		{
+			anim.SetTrigger ("Jump");
+		}
+
+		if (JumpCount == 2)
+		{
+			anim.SetTrigger ("Jump2");
 		}
 
     }
@@ -127,12 +147,40 @@ public class player_move_proto : MonoBehaviour {
 	 
 	void OnTriggerStay2D (Collider2D collider)
 	{
-		grounded = true;
-		JumpCount = 0;
+		if (!grounded)
+		{
+			grounded = true;
+			JumpCount = 0;
+
+			Land ();
+		}
+
 	}
 
 	void OnTriggerExit2D (Collider2D collider)
 	{
-		grounded = false;
+		if (grounded)
+		{
+			grounded = false;
+		}
+	}
+
+	void Land ()
+	{
+		if (moveX != 0f)
+		{
+			walking = true;
+
+			anim.SetTrigger ("Run");
+
+		} 
+		else
+		{
+			
+			walking = false;
+
+			anim.SetTrigger ("Idle");
+
+		}
 	}
 }

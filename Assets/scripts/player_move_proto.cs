@@ -22,7 +22,7 @@ public class player_move_proto : MonoBehaviour {
 	public CircleCollider2D collid;
 
 	public Rigidbody2D weapon;
-	public int weaponSpeed = 1;
+	public int weaponSpeed = 10;
 
 
 	public Transform swordSpawnTransform;
@@ -72,6 +72,7 @@ public class player_move_proto : MonoBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.X))
 		{
+			
 			ThrowWeapon ();
 		}
         
@@ -159,10 +160,20 @@ public class player_move_proto : MonoBehaviour {
 	{
 		if (!grounded)
 		{
+			
+			if(collider.gameObject.layer == LayerMask.NameToLayer ("Platforms"))
+			{
+				grounded = true;
+				JumpCount = 0;
+
+				Land ();
+			}
+			/*
 			grounded = true;
 			JumpCount = 0;
 
 			Land ();
+			*/
 		}
 
 	}
@@ -198,9 +209,23 @@ public class player_move_proto : MonoBehaviour {
 	{
 		Rigidbody2D weaponInstance = Instantiate (weapon, swordSpawnTransform.position, weapon.transform.rotation) as Rigidbody2D;
 
-		//weaponInstance.transform.localScale
+		Vector2 swordScale = weaponInstance.transform.localScale;
 
-		weaponInstance.velocity = transform.right * weaponSpeed;
+		if (facingRight)
+		{
+			swordScale.x *= 1;
+			weaponInstance.transform.localScale = swordScale;
+
+			weaponInstance.velocity = -transform.right * weaponSpeed;
+		}
+
+		else
+		{
+			swordScale.x *= -1;
+			weaponInstance.transform.localScale = swordScale;
+
+			weaponInstance.velocity = transform.right * weaponSpeed;
+		}
 
 		Physics2D.IgnoreCollision (weaponInstance.GetComponent<Collider2D>(), GetComponent <Collider2D>());
 

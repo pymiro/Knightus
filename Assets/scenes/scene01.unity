@@ -191,7 +191,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.64, y: 0.64}
+  m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -242,7 +242,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.6, y: 0.17}
     oldSize: {x: 2, y: 2}
-    newSize: {x: 0.64, y: 0.64}
+    newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -290,7 +290,7 @@ MonoBehaviour:
   grounded: 0
   collid: {fileID: 309168785}
   weapon: {fileID: 50241670376449208, guid: ac8b13abd5acb694b9b699baf556b27f, type: 2}
-  weaponSpeed: 2
+  weaponSpeed: 8
   swordSpawnTransform: {fileID: 1422344727}
 --- !u!58 &309168785
 CircleCollider2D:
@@ -403,9 +403,9 @@ MonoBehaviour:
   player: {fileID: 309168777}
   playerPlay: {fileID: 484344603}
   zOffset: {x: 0, y: 0, z: -1}
-  forwardOffset: 1.5
+  forwardOffset: 0.5
   playerScript: {fileID: 309168784}
-  smoothTime: 0.8
+  smoothTime: 0.5
 --- !u!1 &550580880
 GameObject:
   m_ObjectHideFlags: 0

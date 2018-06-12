@@ -117,7 +117,10 @@ public class player_move_proto : MonoBehaviour {
         //Jumping Code
 		if (JumpCount < 2)
 		{
-			rb.AddForce(Vector2.up * playerJumpPower);
+//			rb.AddForce(Vector2.up * playerJumpPower, ForceMode2D.Impulse);
+
+			rb.velocity = new Vector2 (rb.velocity.x, playerJumpPower);
+
 
 			JumpCount += 1;
 

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class swordManager : MonoBehaviour {
 
-//	public GameObject sword;
+	public Animator anim;
 
-	public GameObject dust;
+	public Collider2D swordCollider;
 
-	public Transform point;
+	public Rigidbody2D swordRB;
 
 	void Update()
 	{
@@ -26,9 +26,22 @@ public class swordManager : MonoBehaviour {
 	{
 		if (collider.gameObject.layer == LayerMask.NameToLayer ("Platforms"))
 		{
-			//Instantiate (dust, point, dust.transform.rotation);
 
-			Destroy (gameObject);
+			StartCoroutine (swordDestroy());
+
 		}
+	}
+
+
+	private IEnumerator swordDestroy()
+	{
+		anim.SetTrigger ("swordHit");
+
+		swordCollider.enabled = false;
+
+		swordRB.velocity = new Vector2 (0,0);
+
+		yield return new WaitForSeconds (anim.GetCurrentAnimatorClipInfo (0).Length);
+		Destroy (gameObject);
 	}
 }

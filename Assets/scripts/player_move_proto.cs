@@ -230,6 +230,16 @@ public class player_move_proto : MonoBehaviour {
 			weaponInstance.velocity = transform.right * weaponSpeed;
 		}
 
+		if (grounded)
+		{
+			anim.SetTrigger ("Throw");
+		}
+
+		if (!grounded)
+		{
+			anim.SetTrigger ("Airthrow");
+		}
+
 		Physics2D.IgnoreCollision (weaponInstance.GetComponent<Collider2D>(), GetComponent <Collider2D>());
 
 	}

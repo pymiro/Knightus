@@ -10,6 +10,8 @@ public class swordManager : MonoBehaviour {
 
 	public Rigidbody2D swordRB;
 
+	private int randomAnim;
+
 	void Update()
 	{
 		
@@ -35,7 +37,20 @@ public class swordManager : MonoBehaviour {
 
 	private IEnumerator swordDestroy()
 	{
-		anim.SetTrigger ("swordHit");
+		randomAnim = Random.Range (0, 3);
+
+		if (randomAnim == 0)
+		{
+			anim.SetTrigger ("swordHit");
+		}
+		else if (randomAnim == 1)
+		{
+			anim.SetTrigger ("swordHit1");
+		}
+		else if (randomAnim == 2)
+		{
+			anim.SetTrigger ("swordHit2");
+		}
 
 		swordCollider.enabled = false;
 

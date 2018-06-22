@@ -52,6 +52,7 @@ public class player_move_proto : MonoBehaviour {
 
 		if (Input.GetKeyDown(KeyCode.UpArrow))
         {
+            
             PlayerJump();
 
         }
@@ -87,7 +88,8 @@ public class player_move_proto : MonoBehaviour {
 
 	void AnimPlayer()
 	{
-		if (moveX != 0f) {
+        /*
+        if (moveX != 0f) {
 			if (!walking) {
 				if (grounded)
 				{
@@ -98,17 +100,38 @@ public class player_move_proto : MonoBehaviour {
 
 			}
 		} 
-		else {
-			if (walking) {
-				if (grounded)
-				{
-					walking = false;
+      
 
-					anim.SetTrigger ("Idle");
-				}
-			}
-		}
+        else
+        {
+            if (walking)
+            {
+                if (grounded)
+                {
+                    walking = false;
 
+                    anim.SetTrigger("Idle");
+                }
+            }
+        }
+        */
+
+        if (grounded)
+        {
+            if (moveX != 0f)
+            {
+                walking = true;
+
+                anim.SetTrigger("Run");
+            }
+
+            else
+            {
+                walking = false;
+
+                anim.SetTrigger("Idle");
+            }
+        }
 
 	}
 
@@ -121,22 +144,33 @@ public class player_move_proto : MonoBehaviour {
 
 			rb.velocity = new Vector2 (rb.velocity.x, playerJumpPower);
 
+            if (JumpCount == 0)
+            {
+                anim.SetTrigger("Jump");
+            }
 
-			JumpCount += 1;
+            if (JumpCount == 1 && !grounded)
+            {
+                anim.SetTrigger("Jump2");
+            }
+
+
+            JumpCount += 1;
 
 
 		}
 
+        /*
 		if (JumpCount == 1) 
 		{
 			anim.SetTrigger ("Jump");
 		}
 
-		if (JumpCount == 2)
+		if (JumpCount == 2 && !grounded)
 		{
 			anim.SetTrigger ("Jump2");
 		}
-
+        */
     }
 
     void FlipPlayer()
@@ -166,8 +200,7 @@ public class player_move_proto : MonoBehaviour {
 			
 			if(collider.gameObject.layer == LayerMask.NameToLayer ("Platforms"))
 			{
-				grounded = true;
-				JumpCount = 0;
+				
 
 				Land ();
 			}
@@ -191,11 +224,16 @@ public class player_move_proto : MonoBehaviour {
 
 	void Land ()
 	{
-		if (moveX != 0f)
+        grounded = true;
+        JumpCount = 0;
+        
+        if (moveX != 0f)
 		{
 			walking = true;
 
 			anim.SetTrigger ("Run");
+
+            //Debug.Log("landrun");
 
 		} 
 		else
@@ -205,6 +243,7 @@ public class player_move_proto : MonoBehaviour {
 
 			anim.SetTrigger ("Idle");
 
+            //Debug.Log("Landidle");
 		}
 	}
 

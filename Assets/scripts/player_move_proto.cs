@@ -115,7 +115,7 @@ public class player_move_proto : MonoBehaviour {
             }
         }
         */
-
+        
         if (grounded)
         {
             if (moveX != 0f)
@@ -132,7 +132,7 @@ public class player_move_proto : MonoBehaviour {
                 anim.SetTrigger("Idle");
             }
         }
-
+        
 	}
 
     void PlayerJump()
@@ -211,6 +211,8 @@ public class player_move_proto : MonoBehaviour {
 			Land ();
 			*/
 		}
+
+
 
 	}
 
